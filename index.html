@@ -3,11 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Library App</title>
     <link rel="stylesheet" href="custom.css">
 </head>
 <body>
+  <div class="logo">Library App</div>
+   <div class="navigation">
+     <button commandfor="confirm-dialog" command="show-modal" class="add">
+       Add new book
+     </button>
+   </div>
     <div class="container"></div>
+   
+
+    <!--start modal section-->
+
+<dialog id="confirm-dialog">
+  <h1>Add new book?</h1>
+  <header>
+    
+    <label for="author">Author: </label><input type="text" name="author" id="author">
+    <label for="title">Title: </label><input type="text" name="title" id="title">
+    <label for="pages">Number of pages: </label><input type="number" name="pages" id="pages">
+    <label for="read">Is it read?: </label><input type="checkbox" name="read" id="read">
+    
+  </header>
+  <footer>
+    <button commandfor="confirm-dialog" command="--save" value="save">Save</button>
+    <button commandfor="confirm-dialog" command="close" aria-label="Close" value="close">
+      Close
+    </button>
+
+  </footer>
+</dialog>
+    <!--end modal section-->
 <script src="custom.js"></script>
 </body>
 </html>

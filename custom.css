@@ -1,3 +1,124 @@
 body{
-    background-color: darkgrey;
+    background-color: #454040;
+}
+
+.logo{
+    color: #E6F082;
+    font-size: 30px;
+    font-weight: 900;
+    margin: 20px;
+}
+.navigation{
+    background-color: #454040;
+    margin:20px 0px;
+}
+.container, .navigation{
+    width: 80%;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+.container{
+    background-color: #605B51;
+    display: flex;
+    flex-wrap: wrap;
+}
+.add{
+    background-color: #D8D365;
+    color: black;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+}
+.add:hover{
+    background-color: #D8D365aa;
+}
+
+.card{
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    height: 350px;
+    border: 2px dashed #D8D365;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 10px;
+    justify-content: space-between;
+}
+.author{
+    font-size: 20px;
+    font-weight: 400;
+    margin: 1rem;
+    color: #454040;
+    background-color: #D8D365;
+}
+.title{
+    font-size: 25px;
+    font-weight: 600;
+    margin: 1.75em 1rem;
+    
+}
+.pages{
+    margin: 1rem;
+}
+
+
+input[type="checkbox"] {
+
+  width: 3em;
+  height: 3rem;
+  accent-color: #D8D365;
+  margin: 1rem;
+
+}
+.content>label{
+    margin: 20px;
+    font-size: 3rem;
+    font-weight: 450;
+    
+}
+.options{
+    display: flex;
+    justify-content: space-between;
+}
+.options>button, footer>button{
+    color: black;
+    font-weight: bold;
+    border-radius: 10px;
+    padding: 10px;
+    border: none;
+    margin: 10px;
+}
+.options>.toggle{
+    background-color: #E6F082;
+}
+.options>.toggle:hover{
+    background-color: #E6F082aa;
+}
+
+.options>.delete{
+    background-color: #DB1A1A;
+}
+.options>.delete:hover{
+    background-color: #DB1A1Aaa;
+}
+
+header{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+}
+dialog{
+    background-color: #454040;
+}
+input{
+    margin: 10px;
+    background-color: #D8D365;
+}
+footer>button{
+    background-color: #bdb766;
+}
+footer>button:hover{
+    background-color: #bdb766aa;
 }

@@ -31,7 +31,7 @@ const divCard=document.createElement("div");
   divCard.classList.add("card");
   myContainer.appendChild(divCard);
 
-//content item
+//CONTENT item
 const divContent=document.createElement("div");
 divContent.classList.add("content");
 divCard.appendChild(divContent);
@@ -50,28 +50,109 @@ divContent.appendChild(divTitle);
 
 //pages item
 const divPages=document.createElement("div");
-divPages.textContent=obj.pages;
+divPages.textContent=obj.pages + " pages";
 divPages.classList.add("pages");
 divContent.appendChild(divPages);
 
-//options item
+//read item
+const checkLabel=document.createElement("label");
+checkLabel.textContent="Read: ";
+const checkRead=document.createElement("input");
+checkRead.setAttribute("type","checkbox");
+checkRead.checked=obj.read;
+checkRead.disabled=true;
+checkRead.classList.add("read");
+divContent.appendChild(checkLabel);
+checkLabel.appendChild(checkRead)
+
+//OPTIONS item
 const divOptions=document.createElement("div");
 divOptions.classList.add("options");
 divCard.appendChild(divOptions);
 
-//read item
-const checkRead=document.createElement("input");
-checkRead.setAttribute("type","checkbox");
-checkRead.checked=obj.read;
-checkRead.classList.add("read");
-divOptions.appendChild(checkRead);
+
+
+//toggle checked
+const btnCheck=document.createElement("button");
+btnCheck.classList.add("toggle");
+if(checkRead.checked){
+  btnCheck.textContent="Mark as unread"; 
+} else {
+  btnCheck.textContent="Mark as read"; 
+}
+divOptions.appendChild(btnCheck);
+
+//delete item
+const btnDelete=document.createElement("button");
+
+btnDelete.classList.add("delete");
+btnDelete.textContent="Delete";
+divOptions.appendChild(btnDelete);
 }
 }
 
+function clearContainer(){
+  while (myContainer.firstChild) {
+    myContainer.removeChild(myContainer.lastChild);
+  }
+}
+
 addBookToLibrary("Rejto Jeno","A huszonnegy karatos auto",345,false);
-addBookToLibrary("Mark Twain","20 miles under the ocean",546,true);
+addBookToLibrary("Mark Twain","20 miles under",546,true);
 
 
 //dom manipulation
 const myContainer=document.querySelector(".container");
 showBooks(myLibrary);
+const btnDelete=document.querySelectorAll(".delete");
+myContainer.addEventListener("click",function(event){
+  if(event.target.classList[0]=="delete"){ 
+    if(event.target.parentElement.parentElement.id!="")
+    {
+      let indexOfBook = myLibrary.findIndex(i => i.id === event.target.parentElement.parentElement.id);
+      myLibrary.splice(indexOfBook,1);
+      clearContainer();
+      showBooks(myLibrary);
+    }}
+});
+
+const btnCheck=document.querySelectorAll(".toggle");
+myContainer.addEventListener("click",function(event){
+  if(event.target.classList[0]=="toggle"){ 
+    if(event.target.parentElement.parentElement.id!="")
+    {
+      let indexOfBook = myLibrary.findIndex(i => i.id === event.target.parentElement.parentElement.id);
+      if(myLibrary[indexOfBook].read){
+        myLibrary[indexOfBook].read=false;
+      } else {
+        myLibrary[indexOfBook].read=true;
+      }
+      clearContainer();
+      showBooks(myLibrary);
+    }}
+});
+
+
+
+//modal
+  const dialog=document.querySelector("#confirm-dialog");
+  const inputs=dialog.querySelectorAll("input");
+  dialog.addEventListener("command", (event) => {
+ /* if (event.command == "close" && event.target.value=="cancel") {
+    console.log("cancel was clicked");
+  } else if (event.command == "close" && event.target.value=="close") {
+    console.log("close was clicked");
+  }  else */
+    if (event.command == "--save"){
+      if(inputs[0].value!="" && inputs[1].value!="" && inputs[2].value!="" && inputs[3].value!="")
+    {    addBookToLibrary(inputs[0].value,inputs[1].value,inputs[2].value,inputs[3].checked);
+        inputs[0].value="";
+        inputs[1].value="";
+        inputs[2].value="";
+        inputs[3].checked=false;
+        clearContainer();
+        showBooks(myLibrary);}else {
+    alert("Please complete every required field!");
+  }
+  } 
+});

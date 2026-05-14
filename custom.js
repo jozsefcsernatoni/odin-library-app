@@ -1,158 +1,191 @@
-//data manipulation
-const myLibrary = [];
+(()=>{//data manipulation
 
-function Book(author,title,pages,read) {
-  // the constructor...
-  if(!new.target){
-    throw Error("Use new keyword");
-  }
+class Book{
+  constructor(author,title,pages,read){
   this.author=author;
   this.title=title;
   this.pages=pages;
   this.read=read;
   this.id=self.crypto.randomUUID();
 }
-
-function addBookToLibrary(usrAuthor,usrTitle,usrPages,usrRead) {
-  // take params, create a book then store it in the array
-  const myBook=new Book(usrAuthor,usrTitle,usrPages,usrRead);
-  myLibrary.push(myBook);
 }
 
-function showBooks(arr){
-arr.forEach(element => {
-  useTemplate(element);  
-});
+class Library{
+  constructor(){
+    this.library=[];
+  }
+  addBookToLibrary(usrAuthor,usrTitle,usrPages,usrRead){
+  const myBook=new Book(usrAuthor,usrTitle,usrPages,usrRead);
+  this.library.push(myBook);
+  }
 
-function useTemplate(obj){
+  get books(){
+    return this.library;
+  }
+
+  setBookRead(bookIndex,bookRead){  
+  this.library[bookIndex].read=bookRead;
+  }
+
+  getBookRead(bookIndex){
+  return this.library[bookIndex].read;
+  }
+}
+
+const newLibrary=new Library();
+newLibrary.addBookToLibrary("Rejto Jeno","A huszonnegy karatos auto",345,false);
+newLibrary.addBookToLibrary("Mark Twain","20 miles under",546,true);
+
+
+class Dom{
+constructor(){
+  this.myContainer=document.querySelector(".container");
+
+}
+
+showBooks(arr){
+arr.forEach(element => {
+  this.useTemplate(element);  
+});
+}
+
+useTemplate(obj){
 //card item  
-const divCard=document.createElement("div");
-  divCard.id=obj.id;
-  divCard.classList.add("card");
-  myContainer.appendChild(divCard);
+ this.divCard=document.createElement("div");
+  this.divCard.id=obj.id;
+  this.divCard.classList.add("card");
+  this.myContainer.appendChild(this.divCard);
 
 //CONTENT item
-const divContent=document.createElement("div");
-divContent.classList.add("content");
-divCard.appendChild(divContent);
+this.divContent=document.createElement("div");
+this.divContent.classList.add("content");
+this.divCard.appendChild(this.divContent);
 
 //author item
-const divAuthor=document.createElement("div");
-divAuthor.textContent=obj.author;
-divAuthor.classList.add("author");
-divContent.appendChild(divAuthor);
+this.divAuthor=document.createElement("div");
+this.divAuthor.textContent=obj.author;
+this.divAuthor.classList.add("author");
+this.divContent.appendChild(this.divAuthor);
 
 //title item
-const divTitle=document.createElement("div");
-divTitle.textContent=obj.title;
-divTitle.classList.add("title");
-divContent.appendChild(divTitle);
+this.divTitle=document.createElement("div");
+this.divTitle.textContent=obj.title;
+this.divTitle.classList.add("title");
+this.divContent.appendChild(this.divTitle);
 
 //pages item
-const divPages=document.createElement("div");
-divPages.textContent=obj.pages + " pages";
-divPages.classList.add("pages");
-divContent.appendChild(divPages);
+this.divPages=document.createElement("div");
+this.divPages.textContent=obj.pages + " pages";
+this.divPages.classList.add("pages");
+this.divContent.appendChild(this.divPages);
 
 //read item
-const checkLabel=document.createElement("label");
-checkLabel.textContent="Read: ";
-const checkRead=document.createElement("input");
-checkRead.setAttribute("type","checkbox");
-checkRead.checked=obj.read;
-checkRead.disabled=true;
-checkRead.classList.add("read");
-divContent.appendChild(checkLabel);
-checkLabel.appendChild(checkRead)
+this.checkLabel=document.createElement("label");
+this.checkLabel.textContent="Read: ";
+this.checkRead=document.createElement("input");
+this.checkRead.setAttribute("type","checkbox");
+this.checkRead.checked=obj.read;
+this.checkRead.disabled=true;
+this.checkRead.classList.add("read");
+this.divContent.appendChild(this.checkLabel);
+this.checkLabel.appendChild(this.checkRead)
 
 //OPTIONS item
-const divOptions=document.createElement("div");
-divOptions.classList.add("options");
-divCard.appendChild(divOptions);
+this.divOptions=document.createElement("div");
+this.divOptions.classList.add("options");
+this.divCard.appendChild(this.divOptions);
 
 
 
 //toggle checked
-const btnCheck=document.createElement("button");
-btnCheck.classList.add("toggle");
-if(checkRead.checked){
-  btnCheck.textContent="Mark as unread"; 
+this.btnCheck=document.createElement("button");
+this.btnCheck.classList.add("toggle");
+if(this.checkRead.checked){
+  this.btnCheck.textContent="Mark as unread"; 
 } else {
-  btnCheck.textContent="Mark as read"; 
+  this.btnCheck.textContent="Mark as read"; 
 }
-divOptions.appendChild(btnCheck);
+this.divOptions.appendChild(this.btnCheck);
+
+
 
 //delete item
-const btnDelete=document.createElement("button");
+this.btnDelete=document.createElement("button");
+this.btnDelete.textContent="Delete";
+this.btnDelete.classList.add("delete");
+this.divOptions.appendChild(this.btnDelete);
 
-btnDelete.classList.add("delete");
-btnDelete.textContent="Delete";
-divOptions.appendChild(btnDelete);
-}
-}
 
-function clearContainer(){
-  while (myContainer.firstChild) {
-    myContainer.removeChild(myContainer.lastChild);
-  }
 }
 
-addBookToLibrary("Rejto Jeno","A huszonnegy karatos auto",345,false);
-addBookToLibrary("Mark Twain","20 miles under",546,true);
+clickMonitor(){
+  this.myContainer.addEventListener("click",function(event){
 
-
-//dom manipulation
-const myContainer=document.querySelector(".container");
-showBooks(myLibrary);
-const btnDelete=document.querySelectorAll(".delete");
-myContainer.addEventListener("click",function(event){
-  if(event.target.classList[0]=="delete"){ 
-    if(event.target.parentElement.parentElement.id!="")
-    {
-      let indexOfBook = myLibrary.findIndex(i => i.id === event.target.parentElement.parentElement.id);
-      myLibrary.splice(indexOfBook,1);
-      clearContainer();
-      showBooks(myLibrary);
-    }}
-});
-
-const btnCheck=document.querySelectorAll(".toggle");
-myContainer.addEventListener("click",function(event){
-  if(event.target.classList[0]=="toggle"){ 
-    if(event.target.parentElement.parentElement.id!="")
-    {
-      let indexOfBook = myLibrary.findIndex(i => i.id === event.target.parentElement.parentElement.id);
-      if(myLibrary[indexOfBook].read){
-        myLibrary[indexOfBook].read=false;
+ try{
+  this.indexOfBook = newLibrary.books.findIndex(i => i.id === event.target.parentElement.parentElement.id);
+ }
+ catch (error) {
+  console.error(error);
+ }
+  
+      if(event.target.classList[0]==="delete"){
+      newLibrary.books.splice(this.indexOfBook,1);
+    }
+    else if(event.target.classList[0]==="toggle"){ 
+      if(newLibrary.getBookRead(this.indexOfBook)){
+        newLibrary.setBookRead(this.indexOfBook,false);
+      
       } else {
-        myLibrary[indexOfBook].read=true;
+        newLibrary.setBookRead(this.indexOfBook,true);
+        
       }
-      clearContainer();
-      showBooks(myLibrary);
-    }}
+    }
+    
+  dom.clearContainer();
+  dom.showBooks(newLibrary.books); 
+
 });
-
-
-
-//modal
-  const dialog=document.querySelector("#confirm-dialog");
-  const inputs=dialog.querySelectorAll("input");
-  dialog.addEventListener("command", (event) => {
- /* if (event.command == "close" && event.target.value=="cancel") {
-    console.log("cancel was clicked");
-  } else if (event.command == "close" && event.target.value=="close") {
-    console.log("close was clicked");
-  }  else */
-    if (event.command == "--save"){
-      if(inputs[0].value!="" && inputs[1].value!="" && inputs[2].value!="" && inputs[3].value!="")
-    {    addBookToLibrary(inputs[0].value,inputs[1].value,inputs[2].value,inputs[3].checked);
-        inputs[0].value="";
-        inputs[1].value="";
-        inputs[2].value="";
-        inputs[3].checked=false;
-        clearContainer();
-        showBooks(myLibrary);}else {
-    alert("Please complete every required field!");
+}
+//clear the whole library from the FE
+clearContainer(){
+  while (this.myContainer.firstChild) {
+    this.myContainer.removeChild(this.myContainer.firstChild);
   }
-  } 
-});
+
+
+}
+}
+
+const dom=new Dom();
+dom.showBooks(newLibrary.books);
+dom.clickMonitor();
+//modal
+  class Modal{
+    constructor(){
+    this.dialog=document.querySelector("#confirm-dialog");
+    this.inputs=this.dialog.querySelectorAll("input");
+    }
+    
+    listen(){
+      this.dialog.addEventListener("command", (event) => {
+    if (event.command == "--save"){
+      if(this.inputs[0].value!="" && this.inputs[1].value!="" && this.inputs[2].value!="" && this.inputs[3].value!="")
+    {    newLibrary.addBookToLibrary(this.inputs[0].value,this.inputs[1].value,this.inputs[2].value,this.inputs[3].checked);
+        this.inputs[0].value="";
+        this.inputs[1].value="";
+        this.inputs[2].value="";
+        this.inputs[3].checked=false;
+        dom.clearContainer();
+        dom.showBooks(newLibrary.books);
+      }else {
+    alert("Please complete every required field!");
+            }
+            }
+    
+  });
+}
+  }
+const modal=new Modal();
+modal.listen();
+
+})();
